@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="מטבח קאסה · תפריט והזמנה">
+<meta property="og:description" content="בוחרים מנות וכמויות ושולחים הזמנה בוואטסאפ.">
+<style>*{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>הזמנה ממטבח קאסה</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Assistant:wght@400;600;700&display=swap">
+<style>
+/* Layout: one RTL column of dishes with steppers, sticky category chips on top, fixed order bar at the bottom */
+:root{
+  --bg:#FFFFFF; --surface:#FAF8F4; --fg:#1E1D1A; --muted:#5B574F; --line:#DDD3C2;
+  --accent:#2E5B44; --accent-ink:#FFFFFF; --accent-soft:#E3EADF;
+  color-scheme:light;
+  --f-display:"Karantina","Assistant",system-ui,sans-serif;
+  --f-body:"Assistant",system-ui,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.45;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 150px}
+.tiles{height:22px;background:#2E5B44 url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2272%22%20height%3D%2222%22%20viewBox%3D%220%200%2072%2022%22%3E%3Crect%20width%3D%2272%22%20height%3D%2222%22%20fill%3D%22%232E5B44%22/%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%221.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2211%22%20r%3D%226%22/%3E%3Cpath%20d%3D%22M10%205v12M4%2011h12M5.8%206.8l8.4%208.4M14.2%206.8l-8.4%208.4%22/%3E%3Cpath%20d%3D%22M24%2018c4-3%208-8%2010-13%22/%3E%3Cpath%20d%3D%22M27%2015c-2-1-3-3-2-5%202%201%203%203%202%205z%22/%3E%3Cpath%20d%3D%22M31%2010c-2-1-3-3-2-5%202%201%203%203%202%205z%22/%3E%3Cpath%20d%3D%22M30%2015c1-2%203-3%205-2-1%202-3%203-5%202z%22/%3E%3Cpath%20d%3D%22M45%207c2%200%203%201%203%203-1%205-4%208-9%209%203-2%205-5%205-9%200-2%200-3%201-3z%22/%3E%3Cpath%20d%3D%22M45%207c0-2%201-3%203-3%22/%3E%3Cpath%20d%3D%22M58%204v5c0%202%201%203%203%203s3-1%203-3V4M61%204v6M61%2012v7%22/%3E%3C/g%3E%3C/svg%3E") repeat-x;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+header.hero{text-align:center;padding:28px 0 8px}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.18em;color:var(--accent)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(3.4rem,15vw,5.2rem);line-height:.88;margin:6px 0 4px;text-wrap:balance}
+.tag{font-weight:600;font-size:1.05rem;margin:0}
+.how{color:var(--muted);font-size:.92rem;margin:10px auto 0;max-width:42ch}
+nav.cats{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:10px 0;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.cats a{flex:none;font-size:.85rem;font-weight:600;color:var(--fg);text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;white-space:nowrap}
+nav.cats a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,.send:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.cat{scroll-margin-top:64px;margin-top:22px}
+h2{font-family:var(--f-display);font-weight:700;font-size:2.2rem;line-height:1;color:var(--accent);margin:0 0 4px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+.dish{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.dish .txt{min-width:0}
+.nm{font-weight:700}
+.ds{color:var(--muted);font-size:.86rem;margin-top:1px}
+.pr{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:.95rem;margin-top:2px}
+.step{display:flex;align-items:center;gap:2px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.step button{width:44px;height:44px;border:0;background:transparent;color:var(--fg);font:inherit;font-size:1.35rem;font-weight:700;cursor:pointer;border-radius:999px;display:grid;place-items:center}
+.step button:disabled{color:var(--line);cursor:default}
+.step .q{min-width:22px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.dish.on{background:var(--accent-soft);margin-inline:-10px;padding-inline:10px;border-radius:8px}
+.dish.on .step{border-color:var(--accent)}
+.feature .dish{border:2px solid var(--accent);border-radius:10px;padding:16px;background:var(--surface)}
+.feature .dish.on{background:var(--accent-soft);margin-inline:0}
+.feature .nm{font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:700}
+.feature .pr{font-size:1.15rem}
+.banner{margin-top:40px;padding:22px 0 6px;border-top:4px double var(--accent);text-align:center}
+.banner-h{font-family:var(--f-display);font-weight:700;font-size:clamp(2.8rem,12vw,4rem);line-height:.9;margin:4px 0}
+.banner-p{margin:0;color:var(--muted);font-size:.92rem}
+.details{margin-top:28px;display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.details h2{border:0;padding:0;margin:0}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+label{display:grid;gap:4px;font-size:.88rem;font-weight:600}
+input,textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-height:44px;width:100%}
+textarea{min-height:80px;resize:vertical}
+.bar{position:fixed;inset:auto 0 0;z-index:8;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(30,29,26,.10);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bar-in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sum{flex:1;min-width:140px}
+.sum .lbl{font-size:.8rem;color:var(--muted)}
+.sum .tot{font-family:var(--f-display);font-weight:700;font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
+.sum .cnt{font-size:.8rem;color:var(--muted)}
+.send{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;border-radius:999px;padding:12px 20px;min-height:48px}
+.send[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.copy{font:inherit;font-weight:600;font-size:.85rem;background:transparent;border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:10px 14px;min-height:44px;cursor:pointer}
+.note{font-size:.8rem;color:var(--muted);text-align:center;margin-top:18px}
+.phone{direction:ltr;unicode-bidi:isolate;font-weight:700}
+@media (prefers-reduced-motion:no-preference){.dish{transition:background-color .15s}}
+</style>
+
+</head>
+<body>
+<div class="wrap" dir="rtl" lang="he">
+  <div class="tiles" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="eyebrow">תפריט</div>
+    <h1>מטבח קאסה</h1>
+    <svg width="96" height="32" viewBox="0 0 96 32" aria-hidden="true" style="margin-top:12px"><circle cx="16" cy="16" r="14" fill="#1E1D1A"/><circle cx="16" cy="16" r="10.5" fill="#FBF8F3"/><circle cx="16" cy="16" r="5" fill="#E8845E"/><circle cx="48" cy="16" r="14" fill="#1E1D1A"/><circle cx="48" cy="16" r="10.5" fill="#FBF8F3"/><circle cx="48" cy="16" r="5" fill="#7FB069"/><circle cx="80" cy="16" r="14" fill="#1E1D1A"/><circle cx="80" cy="16" r="10.5" fill="#FBF8F3"/><circle cx="80" cy="16" r="5" fill="#E8845E"/></svg>
+    <p class="how">בוחרים מנות וכמויות, ממלאים פרטים ושולחים לנו בוואטסאפ. אנחנו חוזרים עם אישור.</p>
+  </header>
+  <nav class="cats" id="cats" aria-label="קטגוריות"></nav>
+  <main id="menu"></main>
+
+  <form class="details" id="details" autocomplete="on">
+    <h2>פרטי ההזמנה</h2>
+    <div class="row2">
+      <label for="f-name">שם<input id="f-name" name="name" type="text" placeholder="שם מלא"></label>
+      <label for="f-date">תאריך האירוע<input id="f-date" name="date" type="date"></label>
+      <label for="f-guests">מספר אורחים<input id="f-guests" name="guests" type="number" min="1" inputmode="numeric" placeholder="למשל 80"></label>
+    </div>
+    <label for="f-notes">הערות<textarea id="f-notes" name="notes" placeholder="רגישויות, שעת הגשה, בקשות מיוחדות"></textarea></label>
+  </form>
+  <p class="note">המחירים בשקלים. ההזמנה נשלחת לאישור של צוות קאסה. וואטסאפ: <span class="phone">052-530-4883</span></p>
+</div>
+
+<div class="bar" dir="rtl" lang="he">
+  <div class="bar-in">
+    <div class="sum" aria-live="polite">
+      <div class="lbl">סה"כ משוער</div>
+      <div class="tot" id="tot">₪0</div>
+      <div class="cnt" id="cnt">עוד לא נבחרו מנות</div>
+    </div>
+    <button type="button" class="copy" id="copy">העתקה</button>
+    <a class="send" id="send" href="https://wa.me/972525304883" target="_blank" rel="noopener" aria-disabled="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.3L3 21z"/></svg>
+      שליחה בוואטסאפ
+    </a>
+  </div>
+</div>
+
+<script type="application/json" id="data">[{"name": "כרכרת הסושי", "feature": true, "items": [{"id": "sushi", "n": "כרכרת הסושי · 100 רולים", "d": "כרכרה גדולה עם 100 רולים: רולים עם דגים, רולים צמחוניים ומגוון רטבים. הצגה מול האורחים.", "p": 4956}]}, {"name": "מנות ראשונות", "items": [{"id": "i1", "n": "קוביות חלומי מטוגנות", "d": "קוביות גבינת חלומי מצופות בפירורי לחם מוגשות עם רוטב צ׳ילי מיונז בצד.", "p": 41}, {"id": "i2", "n": "פטריות בטמפורה", "d": "פטריות בציפוי טמפורה פריכה.", "p": 41}, {"id": "i3", "n": "טבעות בצל וכדורי פירה", "d": "מוגשים בליווי צ'ילי מתוק וצ'ילי מיונז.", "p": 41}, {"id": "i4", "n": "הום פרייז", "d": "קוביות תפו\"א מטוגנות ומוקפצות בצ'ילי מתוק עם פלפלים ובצל.", "p": 38}, {"id": "i5", "n": "צ'יפס גדול", "d": "רצועות תפו\"א מטוגנות.", "p": 26}, {"id": "i6", "n": "צ'יפס בטטה", "d": "מוגש בליווי רוטב צ'ילי מיונז.", "p": 31}, {"id": "i7", "n": "חציל קלוי", "d": "מוגש עם טחינה, רוטב צ'ימיצ'ורי ופיתה.", "p": 43}, {"id": "i8", "n": "סלט ערבי גדול", "d": "חסה, בצל סגול, מלפפון ועגבניה בתיבול לימון, שמן זית ונענע.", "p": 27}, {"id": "i9", "n": "סלט קולסלאו", "d": "כרוב וגזר במיונז.", "p": 20}, {"id": "i10", "n": "סלט ירוק אישי", "d": "חסה, עגבניות שרי, מלפפון, צנונית, קרוטונים, קריספי בטטה ורוטב וינגרט.", "p": 22}, {"id": "i11", "n": "צ'יפס וופל", "d": "צ'יפס בצורת וופל מתובל.", "p": 31}, {"id": "i12", "n": "כנפיים בצ'ילי וחמאת בוטנים · קטן", "d": "מוגש עם שומשום קלוי מעל.", "p": 34}, {"id": "i13", "n": "כנפיים ברוטב צ'ילי · קטן", "d": "", "p": 34}]}, {"name": "חומוס", "items": [{"id": "i14", "n": "חומוס בשר", "d": "חומוס עם תוספת בשר טחון, בצל מטוגן ושקדים.", "p": 40}, {"id": "i15", "n": "חומוס טחינה וגרגירים", "d": "חומוס עם טחינה וגרגירי חומוס.", "p": 32}, {"id": "i16", "n": "חומוס נקי", "d": "חומוס קלאסי נקי.", "p": 31}, {"id": "i17", "n": "חומוס פטריות", "d": "חומוס עם פטריות.", "p": 36}]}, {"name": "סלטים", "items": [{"id": "i18", "n": "סלט טונה", "d": "חסה, ירקות, ארטישוק, שעועית ירוקה, תפו\"א, ביצה קשה, בצל, זיתים, פלפלים וסלט טונה מתובל.", "p": 58}, {"id": "i19", "n": "סלט יווני", "d": "לבבות חסה, עגבניות שרי, מלפפון, בצל סגול, זיתי קלמטה, פלפלים קלויים ואורגנו בתיבול שמן זית ולימון.", "p": 58}, {"id": "i20", "n": "סלט קיסר", "d": "חסה ערבית וקרוטונים ברוטב קיסר.", "p": 43}, {"id": "i21", "n": "סלט קיסר עם עוף", "d": "חסה ערבית, רצועות עוף וקרוטונים ברוטב קיסר. אפשר להוסיף עוף בתוספת תשלום.", "p": 52}, {"id": "i22", "n": "סלט חלומי", "d": "חסה, עגבניות שרי, בצל סגול, גזר, גמבה ונבטים ברוטב ויניגרט הדרים עם גבינת חלומי בציפוי פריך ובטטה קריספי מעל.", "p": 59}, {"id": "i23", "n": "סלט ירוק גדול", "d": "חסה, עגבניות שרי וגזר ברוטב ויניגרט הדרים עם קרוטונים ובטטה קריספי מעל.", "p": 41}, {"id": "i24", "n": "סלט חזה עוף", "d": "רצועות חזה עוף, חסה, מלפפון, בצל סגול, מקלות שקדים, גזר, פלפלים, עגבניות שרי, נבטים, שעועית ירוקה ותפוחי אדמה ברוטב ויניגרט הדרים ובטטה קריספי מעל.", "p": 59}, {"id": "i25", "n": "סלט בוראטה", "d": "סלט עגבניות שרי צבעוניות, רבעי ארטישוק, בצל סגול, עלי רוקט, בזיליקום וגבינת בוראטה בשמן זית וקרם בלסמי.", "p": 58}]}, {"name": "המבורגרים", "items": [{"id": "i27", "n": "המבורגר · 250 גרם", "d": "250 גרם קציצת בשר בקר בלחמניית המבורגר עם חסה, עגבניה, מלפפון חמוץ, בצל סגול וצ'יפס בצד.", "p": 49}, {"id": "i28", "n": "ארוחת מיני בורגרים", "d": "שלישיית מיני בורגרים בקר/ מזרחי/ כבש (80 גרם כל קציצה), מוגשים בלחמניות המבורגר עם צ'ילי מיונז, ירקות וצ'יפס בצד.", "p": 74}, {"id": "i29", "n": "ארוחת המבורגר אסאדו", "d": "250 גרם בשר אסאדו ו-80 גרם פרוסת קורנביף מעל בלחמניית המבורגר עם ירקות וצ'יפס בצד.", "p": 71}, {"id": "i30", "n": "ארוחת קריספי צ'יקן", "d": "חזה עוף בציפוי טמפורה פריך בלחמניית המבורגר עם איולי צ'ילי, ירקות, חמוצים וצ'יפס בצד.", "p": 62}, {"id": "i31", "n": "ארוחת המבורגר קצבים", "d": "250 גרם קציצת בשר עם פרוסות אווז בלחמניית המבורגר עם רוטב איולי, ירקות וצ'יפס בצד.", "p": 74}, {"id": "i32", "n": "ארוחת המבורגר דאבל ניו יורק", "d": "2 קציצות בשר בקר (320 גרם) בלחמניית המבורגר עם טבעות בצל וירקות. מוגש לצד רוטב פלפלים פיקנטי וצ'יפס.", "p": 71}, {"id": "i33", "n": "ארוחת המבורגר אנטריקוט", "d": "200 גרם קציצת בשר אנטריקוט מובחר בלחמניית המבורגר עם רוטב איולי, ירקות וצ'יפס בצד.", "p": 71}, {"id": "i34", "n": "ארוחת המבורגר טבעוני", "d": "קציצת המבורגר טבעונית על בסיס פטריות בלחמניית המבורגר עם רוטב טריאקי, בצל פריך, חמוצים וצ'יפס בצד.", "p": 67}, {"id": "i35", "n": "ארוחת צ'יזבורגר · גבינה טבעונית", "d": "200 גרם קציצת המבורגר עם גבינת צ'דר טבעונית, רוטב איולי וירקות. מוגש לצד סלט קולסלאו וצ'יפס.", "p": 70}]}, {"name": "כריכים", "items": [{"id": "i36", "n": "ארוחת כריך אנטריקוט", "d": "250 גרם רצועות אנטריקוט מוקפצות עם בצל בג'בטה פריכה עם רוטב איולי, חסה קצוצה ומלפפון חמוץ. מוגש לצד סלט קולסלאו ותוספת בצד לבחירה.", "p": 68}, {"id": "i37", "n": "ארוחת כריך פרגית", "d": "נתחי פרגית צלויים בגריל בג'בטה פריכה עם רוטב איולי, חסה ובצל מטוגן. מוגש לצד סלט קולסלאו ותוספת בצד לבחירה.", "p": 67}, {"id": "i38", "n": "ארוחת כריך שניצל", "d": "שניצל בג'בטה עם רוטב איולי, חסה, חמוצים ובצל מטוגן. מוגש לצד סלט קולסלאו ותוספת בצד לבחירה.", "p": 59}, {"id": "i39", "n": "ארוחת כריך חזה עוף", "d": "חזה עוף בג'בטה עם רוטב איולי, חסה, חמוצים ובצל מטוגן. מוגש לצד סלט קולסלאו ותוספת בצד לבחירה.", "p": 59}, {"id": "i40", "n": "ארוחת כריך קורנביף חם", "d": "פרוסות קורנביף חם בג'בטה פריכה עם רוטב צ'ילי מיונז, בצל סגול, עגבניה, חסה וריבת בצל. מוגש לצד סלט קולסלאו ותוספת בצד לבחירה.", "p": 67}]}, {"name": "עיקריות בשריות", "items": [{"id": "i41", "n": "שניצל", "d": "שניצל קריספי עם 2 תוספות לבחירה.", "p": 67}, {"id": "i42", "n": "שניצלונים", "d": "שניצלונים קריספיים עם 2 תוספות בצד לבחירה.", "p": 67}, {"id": "i43", "n": "כבד עוף מטוגן", "d": "מוגש על מצע בצל מטוגן ועם 2 תוספות בצד לבחירה.", "p": 61}, {"id": "i44", "n": "חזה עוף טוסקני", "d": "חזה עוף שהושרה במרינדת עשבי תיבול בתוספת קוביות תפו\"א, בצל סגול, זיתי קלמטה ובזיליקום.", "p": 67}, {"id": "i45", "n": "כנפיים על הגריל", "d": "מוגשים על מצע של בצל מטוגן ועם 2 תוספות בצד לבחירה.", "p": 61}, {"id": "i46", "n": "כנפיים ברוטב צ'ילי", "d": "מוגשים עם 2 תוספות בצד לבחירה.", "p": 58}, {"id": "i47", "n": "חזה עוף", "d": "מוגש על מצע של בצל מטוגן ועם 2 תוספות בצד לבחירה.", "p": 62}, {"id": "i48", "n": "כבד על פירה", "d": "מוגש על מצע של פירה תפו״א, ריבת בצל ובצל מקומח.", "p": 58}, {"id": "i49", "n": "סטייק פרגית", "d": "2 נתחים של סטייק פרגית על מצע של בצל מטוגן ועם 2 תוספות בצד לבחירה.", "p": 67}, {"id": "i50", "n": "כנפיים בצ'ילי וחמאת בוטנים", "d": "מוגשים עם 2 תוספות בצד לבחירה.", "p": 61}, {"id": "i51", "n": "מיקס אישי", "d": "חזה עוף, קבב מזרחי, קבב כבש וכבד עוף על מצע של תפו\"א אפוי.", "p": 76}, {"id": "i52", "n": "המנה הבוכרית", "d": "שיפוד פרגית וקבב מזרחי על מצע של אורז לבחירה, שקדים קלויים וירקות בגריל.", "p": 76}, {"id": "i53", "n": "שיפודי פרגיות", "d": "2 שיפודי פרגית, מוגשים לצד סלט ירקות ותוספת לבחירה.", "p": 71}, {"id": "i54", "n": "שווארמה אנטריקוט", "d": "250 גרם שווארמה אנטריקוט עם בצל על מצע של חומוס.", "p": 61}, {"id": "i55", "n": "אורז שעועית ובשר", "d": "בשר בקר על מצע אורז לבן עם שעועית ורוטב אדום.", "p": 41}, {"id": "i56", "n": "טורטיה שווארמה אנטריקוט", "d": "שווארמה אנטריקוט בטורטיה עם טחינה, עמבה, פטרוזיליה קצוצה ומלפפון חמוץ. מוגש לצד חמוצים ובצל סומק.", "p": 47}, {"id": "i57", "n": "טורטיה שווארמה פרגית", "d": "שווארמה פרגית בטורטיה עם טחינה, עמבה, פטרוזיליה קצוצה ומלפפון חמוץ. מוגש לצד חמוצים ובצל סומק.", "p": 47}, {"id": "i58", "n": "מעורב מחנה יהודה", "d": "כבדים, פרגית וחזה עוף על מצע של פירה תפוחי אדמה עם בצל וצ׳ילי אדום. מוגש לצד סלט ירוקים.", "p": 62}, {"id": "i59", "n": "צ׳וריסוס", "d": "2 נקניקיות צ׳וריסוס על מצע של פירה תפוחי אדמה ובצל מטוגן.", "p": 62}]}, {"name": "ים", "items": [{"id": "i60", "n": "פיש & צ'יפס", "d": "נתחי דג קוד בציפוי פריך עם פפריקה מעל. מוגש לצד צ׳יפס לבחירה ורוטב איולי.", "p": 70}, {"id": "i61", "n": "פרייד רייס סלמון", "d": "נתחי סלמון מוקפצים עם אורז ורוטב קארי אדום, חלב קוקוס, אפונה, שעועית ירוקה ובצל ירוק.", "p": 61}, {"id": "i62", "n": "נודלס סלמון", "d": "אטריות מוקפצות עם נתחי דג סלמון, גמבה, בצל, פטריות, כוסברה, בוטנים ובצל ירוק.", "p": 62}]}, {"name": "איטלקי · פסטה", "items": [{"id": "i63", "n": "פסטה ברוטב אלפרדו", "d": "פסטה לבחירה ברוטב שמנת פטריות.", "p": 49}, {"id": "i64", "n": "פסטה ברוטב נפוליטנה", "d": "פסטה לבחירה ברוטב עגבניות קלאסי נפוליטנה.", "p": 49}, {"id": "i65", "n": "פסטה ברוטב רוזה", "d": "פסטה לבחירה ברוטב שמנת עגבניות.", "p": 49}, {"id": "i66", "n": "פסטה ברוטב שמנת פסטו", "d": "פסטה לבחירה ברוטב שמנת פסטו.", "p": 49}, {"id": "i67", "n": "תפו\"א אלפרדו מוקרם", "d": "תפו\"א ברוטב שמנת פטריות מוקרם עם 2 תוספות בצד לבחירה.", "p": 54}, {"id": "i68", "n": "פלין גבינות", "d": "פלין (רביולי) במילוי גבינות עם רוטב לבחירה.", "p": 52}]}, {"name": "אסייתי", "items": [{"id": "i69", "n": "נודלס", "d": "אטריות נודלס מוקפצות עם חלבון לבחירה, גמבה, בצל, פטריות, כוסברה ובוטנים.", "p": 54}, {"id": "i70", "n": "בקר סצ'ואן", "d": "נתחי בקר מוקפצים עם פטריות, בצל, בצל ירוק ופלפלים ברוטב סצ'ואן, מוגש לצד תוספת לבחירה.", "p": 61}, {"id": "i71", "n": "פרגיות נאפל", "d": "נתחי פרגית במרינדת סויה וסילאן מוקפצים עם פטריות, בצל, נבטים ואווז מעושן ברוטב נפאל עם בוטנים ובצל ירוק.", "p": 59}, {"id": "i72", "n": "נודלס צמחוני", "d": "אטריות ביצים מוקפצות עם גמבה, בצל, פטריות, כוסברה ובוטנים.", "p": 54}, {"id": "i73", "n": "גיוזה אסייתי מאודה", "d": "כיסוני בצק בסגנון יפני ממולאים בפרגית, מאודים ומטוגנים קלות.", "p": 41}, {"id": "i74", "n": "פרגית תאילנדית", "d": "פרגית ברוטב אריסה, סויה תאילנדית ושמן שומשום עם בצל סגול, פלפלים, פטריות שמפיניון, פטריות שיטאקי וברוקולי. מוגש לצד אורז לבן.", "p": 67}, {"id": "i75", "n": "פאד תאי עוף", "d": "אטריות אורז עם רצועות עוף, ביצה מקושקשת, נבטים, בצל לבן, גזר, כרוב, כוסברה, בוטנים ובצל ברוטב פטריות וצ׳ילי.", "p": 61}, {"id": "i76", "n": "פאד תאי בקר", "d": "אטריות אורז עם רצועות בשר בקר, ביצה מקושקשת, נבטים, בצל לבן, גזר, כרוב, כוסברה, בוטנים ובצל ברוטב פטריות וצ׳ילי.", "p": 61}, {"id": "i77", "n": "פאד תאי סלמון", "d": "אטריות אורז עם קוביות דג סלמון, ביצה מקושקשת, נבטים, בצל לבן, גזר, כרוב, כוסברה, בוטנים ובצל ברוטב פטריות וצ׳ילי.", "p": 61}, {"id": "i78", "n": "המנה הירוקה", "d": "נודלס עם עוף וירקות ברוטב קארי ירוק.", "p": 61}, {"id": "i79", "n": "פאד תאי פרגית", "d": "אטריות אורז עם פרגית, ביצה מקושקשת, נבטים, בצל לבן, גזר, כרוב, כוסברה, בוטנים ובצל ברוטב פטריות וצ׳ילי.", "p": 61}, {"id": "i80", "n": "פאד תאי צמחוני", "d": "אטריות אורז עם ביצה מקושקשת, נבטים, בצל לבן, גזר, כרוב, כוסברה, בוטנים ובצל ברוטב פטריות וצ׳ילי.", "p": 61}]}, {"name": "מאפים", "items": [{"id": "i81", "n": "מאפה עלים צהובה ובולגרית", "d": "מאפה מבצק עלים במילוי גבינה צהובה וגבינה בולגרית. מוגש עם רסק עגבניות וסחוג.", "p": 35}, {"id": "i82", "n": "מאפה עלים צהובה וזיתים", "d": "מאפה מבצק עלים במילוי גבינה צהובה וזיתים. מוגש עם רסק עגבניות וסחוג.", "p": 35}, {"id": "i83", "n": "צ'יצ'ולינה", "d": "מלוואח עם רוטב פיצה וגבינה צהובה, מוגש לצד רסק עגבניות וסחוג.", "p": 32}, {"id": "i84", "n": "מלוואח", "d": "מלאווח לבחירה, מוגש לצד רסק עגבניות וסחוג.", "p": 27}, {"id": "i85", "n": "ג׳חנון", "d": "2 יחידות. מוגש עם ביצה, רסק עגבניות וסחוג.", "p": 39}]}, {"name": "פיצה", "items": [{"id": "i86", "n": "פיצה איטלקית", "d": "גבינה ורוטב פיצה.", "p": 49}, {"id": "i87", "n": "פיצה טבעונית", "d": "גבינה טבעונית ורוטב פיצה.", "p": 49}, {"id": "i88", "n": "פיצה פרימוורה", "d": "רוטב פסטו, עגבניות שרי, פלפלים קלויים, זיתי קלמטה ושקדים.", "p": 49}]}, {"name": "תוספות", "items": [{"id": "i89", "n": "אורז לבן", "d": "אורז לבן קלאסי.", "p": 14}, {"id": "i90", "n": "צ'יפס", "d": "רצועות תפו\"א מטוגנות.", "p": 14}, {"id": "i91", "n": "אורז ברוטב שעועית", "d": "אורז לבן ברוטב שעועית.", "p": 14}, {"id": "i92", "n": "תפו\"א אפוי", "d": "'סירות' תפו\"א אפויות בתנור.", "p": 14}, {"id": "i93", "n": "סלט קולסלאו", "d": "כרוב לבן וגזר במיונז.", "p": 14}, {"id": "i94", "n": "סלט ערבי", "d": "חסה, בצל סגול, מלפפון ועגבניה בתיבול לימון, שמן זית ונענע.", "p": 14}, {"id": "i95", "n": "פירה", "d": "פירה תפו\"א.", "p": 14}, {"id": "i96", "n": "אושפלו", "d": "תבשיל אורז וגזר.", "p": 14}, {"id": "i97", "n": "חומוס נקי", "d": "חומוס נקי.", "p": 14}, {"id": "i98", "n": "סלט ירוק", "d": "חסה, עגבניות שרי, מלפפון, צנונית, קרוטונים, קריספי בטטה ורוטב וינגרט.", "p": 14}, {"id": "i99", "n": "אורז בשר", "d": "אורז עם רוטב בשר.", "p": 14}, {"id": "i100", "n": "שעועית ירוקה", "d": "שעועית ירוקה מבושלת.", "p": 14}]}, {"name": "מתוקים", "items": [{"id": "i101", "n": "פאדג' שוקולד", "d": "עוגת שוקולד חמה, מוגש בליווי גלידת וניל צרפתי וקצפת.", "p": 38}, {"id": "i102", "n": "קסטה", "d": "קינוח סנדוויץ' עוגיות שוקולד במילוי גלידה בליווי שוקולד חם.", "p": 34}, {"id": "i103", "n": "סושי בננה לוטי · חלבי", "d": "מעטפת של בצק טופי במילוי קרם בננה ייחודי, עטוף בפירורים.", "p": 29}, {"id": "i104", "n": "סושי בננה לוטי רול · פרווה", "d": "במעטפת בצק טופי ושוקולד במילוי קרם בננה וקרם וניל.", "p": 29}, {"id": "i105", "n": "אלפחורס שחיתות", "d": "שכבות של קרם ריבת חלב דקואז קוקוס על מצע עוגיית אלפחורס נימוחה בציפוי קרם קרמל וקוקוס לבן עם גנאש שוקולד לבן וקרם פטיסייר.", "p": 38}]}, {"name": "מגשי אירוח", "items": [{"id": "d1", "n": "מגש כריכים משולשים", "d": "לחם קסטן מחיטה מלאה: טונה, סביח, סלט ביצים, חביתה, חביתת ירק, אבוקדו, בולגרית, מוצרלה, ממרח עיזים. 10 יחידות.", "p": 133}, {"id": "d2", "n": "מגש בגט פלוט", "d": "רצועות בגט מקמח מלא או לבן: טונה, סביח, סלט ביצים, אבוקדו, חביתה, חביתת ירק, בולגרית, מוצרלה, ממרח עיזים. 15 יחידות, 3 טעמים.", "p": 184}, {"id": "d3", "n": "מגש מיני ג'בטה", "d": "טונה, סביח, סלט ביצים, אבוקדו, לביבת ירק, בולגרית, מוצרלה, ממרח עיזים. 12 יחידות, 4 טעמים לבחירה.", "p": 184}, {"id": "d4", "n": "מגש חצאי טורטיות", "d": "סביח, טונה, סלט ביצים, אבוקדו, מוצרלה, בולגרית, טוניסאי. 20 יחידות, 4 טעמים לבחירה.", "p": 207}, {"id": "d5", "n": "מגש כריכוני פריקסה", "d": "12 יחידות.", "p": 184}, {"id": "d6", "n": "מגש כריכוני ביס פרעצל", "d": "12 יחידות.", "p": 184}, {"id": "d7", "n": "מגש כריכוני מיני קרואסון", "d": "12 יחידות.", "p": 192}, {"id": "d8", "n": "מגש פיתה סביח", "d": "12 יחידות.", "p": 177}, {"id": "d9", "n": "מגש המבורגר פורטובלו טבעוני", "d": "12 יחידות.", "p": 283}, {"id": "d10", "n": "מגש מיני פיתה שווארמה טבעוני", "d": "פטריות פורטובלו ושמפיניון צרובות עם טחינה ופטרוזיליה. 12 יחידות.", "p": 283}, {"id": "d11", "n": "סלסלת לחמי בוטיק", "d": "8 לחמניות ביס, 2 לחמוני כוסמין ואגוזים, לחם אפריקאי פרוס וחמאה.", "p": 140}, {"id": "d12", "n": "לחם פרוס עם חמאה", "d": "דגנים, זיתים, שיפון או עגבניות, פרוס. מחיר ליחידה.", "p": 52}, {"id": "d13", "n": "מגש גבינות", "d": "1.8 ק\"ג: צהובה, סקנדינבית, בייבי מוצרלה, מוצרלה, מעושנת, צפתית, בולגרית.", "p": 207}, {"id": "d14", "n": "מגש גבינות מיוחדות", "d": "1.8 ק\"ג: עיזים, קממבר, רוקפור, גאודה, סנט מור, ברי.", "p": 280}, {"id": "d15", "n": "מגש גבינות שבועות", "d": "מנצ'גו, קממבר, בייבי מוצרלה, צ'דר פיקנטי, רול עיזים בפקאן, מקלות פרמזן, רוקפור, קשקבל, ענבים, לבנה וזעתר.", "p": 354}, {"id": "d16", "n": "מגש סלמון מעושן", "d": "750 גרם, עם מלפפון, בצל ירוק ופלפל גרוס.", "p": 288}, {"id": "d17", "n": "עלי גפן", "d": "כ־33 יחידות, עם מטבל יוגורט ציזיקי.", "p": 159}, {"id": "d18", "n": "אנטיפסטי", "d": "ירקות קלויים בתנור: חצילים, בטטה, זוקיני, פלפל, פטריות.", "p": 214}, {"id": "d19", "n": "מגש ירקות · קטן", "d": "ירקות חתוכים ומוכנים להגשה.", "p": 111}, {"id": "d20", "n": "מגש ירקות · גדול", "d": "ירקות חתוכים ומוכנים להגשה.", "p": 170}, {"id": "d21", "n": "קרפצ'יו מוצרלה פרסקה", "d": "עגבניות, בזיליקום ורוטב בלסמי בצד.", "p": 162}, {"id": "d22", "n": "קרפצ'יו סלק וגבינה כחולה", "d": "בצל סגול צלוי, אגוזים וויניגרט.", "p": 162}, {"id": "d23", "n": "פסטה פוזילי · 3 ליטר", "d": "רוטב לבחירה: שמנת פטריות, רוזה או עגבניות.", "p": 236}, {"id": "d24", "n": "רביולי גבינות · 3 ליטר", "d": "ברוטב שמנת פטריות.", "p": 266}, {"id": "d25", "n": "גראטן תפו\"א ובטטה · 3 ליטר", "d": "", "p": 292}, {"id": "d26", "n": "מיני לזניה אישית", "d": "9 יחידות.", "p": 236}, {"id": "d27", "n": "מיני קישים", "d": "מבצק פריך, מיקס טעמים. כ־24 יחידות.", "p": 236}, {"id": "d28", "n": "מאפי פילו מלוחים", "d": "פטריות, תפו\"א, בורקיטס, פיצה, תרד, פטה. כ־25 יחידות.", "p": 125}, {"id": "d29", "n": "לביבות ירק", "d": "כ־30 יחידות, עם טחינה.", "p": 177}, {"id": "d30", "n": "לביבות בטטה", "d": "כ־30 יחידות, עם מטבל סלק.", "p": 177}, {"id": "d31", "n": "לביבות כרישה", "d": "כ־30 יחידות, עם מטבל שמנת.", "p": 177}, {"id": "d32", "n": "הום פרייז", "d": "מגש 2.5 ליטר.", "p": 177}, {"id": "d33", "n": "סלט ירוק", "d": "חסות, תפוח עץ, אגס, עלי בייבי וקשיו בויניגרט הדרים.", "p": 133}, {"id": "d34", "n": "סלט ישראלי", "d": "מלפפון, עגבניה, פטרוזיליה, לימון וטחינה.", "p": 133}, {"id": "d35", "n": "סלט יווני בולגרית", "d": "", "p": 133}, {"id": "d36", "n": "סלט שרי", "d": "שרי בשני צבעים, פסטו, בזיליקום, גרעיני חמנייה וזיתי קלמטה.", "p": 162}, {"id": "d37", "n": "סלט כרוב וגזר", "d": "חמוציות, פקאן, עירית וויניגרט הדרים.", "p": 133}, {"id": "d38", "n": "סלט שורשים אסייתי", "d": "כרוב סגול, נבטים, גזר, בוטנים וויניגרט.", "p": 133}, {"id": "d39", "n": "סלט בורגול", "d": "", "p": 133}, {"id": "d40", "n": "קינואה", "d": "", "p": 162}, {"id": "d41", "n": "סלט פסטה קרה", "d": "פוזילי, אנטיפסטי, שרי, פסטו, בולגרית וזיתים.", "p": 133}, {"id": "d42", "n": "פסטה אנטיפסטי", "d": "", "p": 133}, {"id": "d43", "n": "סלט עשבי תיבול", "d": "בייבי מוצרלה, ארוגולה, נענע, אגוזי מלך, גרעינים וחמוציות.", "p": 162}, {"id": "d44", "n": "סלט אטריות זכוכית", "d": "ירקות קלויים, צ'ילי, נענע, כוסברה וסויה.", "p": 133}, {"id": "d45", "n": "סלט אטריות זכוכית עם טופו", "d": "", "p": 177}, {"id": "d46", "n": "מגש פירות העונה · קטן", "d": "", "p": 214}, {"id": "d47", "n": "מגש פירות העונה · גדול", "d": "", "p": 325}, {"id": "d48", "n": "קינוחי שוט", "d": "מוס שוקולד, לימון מרנג, טירמיסו, גבינה פירורים ועוד. כ־24 יחידות, חלבי או פרווה.", "p": 221}, {"id": "d49", "n": "פטיפורים", "d": "קרמבו, מיני אקלר, טארטלטים, קאפקייקס, מיני סופלה. כ־30 יחידות.", "p": 221}, {"id": "d50", "n": "סברינות", "d": "כ־24 יחידות.", "p": 221}, {"id": "d51", "n": "פחזניות מתוקות", "d": "כ־24 יחידות.", "p": 214}, {"id": "d52", "n": "בראוניז", "d": "", "p": 207}, {"id": "d53", "n": "כדורי שוקולד", "d": "", "p": 207}, {"id": "d54", "n": "כדורי שוקולד ובראוניז", "d": "", "p": 207}, {"id": "d55", "n": "מאפים מתוקים", "d": "רוגלך, גבינה וצימוקים, שנק שוקולד וקינמון, קרואסון חמאה. כ־25 יחידות.", "p": 125}, {"id": "d56", "n": "2 עוגות בחושות פרוסות", "d": "", "p": 125}, {"id": "d57", "n": "עוגיות ביתיות · קטן", "d": "", "p": 148}, {"id": "d58", "n": "עוגיות ביתיות · גדול", "d": "", "p": 236}, {"id": "d59", "n": "מיני מוזלי", "d": "", "p": 16}, {"id": "d60", "n": "מוזלי", "d": "", "p": 21}, {"id": "d61", "n": "כוס ירקות", "d": "", "p": 21}, {"id": "d62", "n": "כוס פירות", "d": "", "p": 22}], "dairy": true, "banner": true}]</script>
+<script>
+(function(){
+  const menu = JSON.parse(document.getElementById('data').textContent);
+  const qty = {};
+  const items = {};
+  const fmt = n => '₪' + n.toLocaleString('he-IL');
+  const nav = document.getElementById('cats');
+  const main = document.getElementById('menu');
+
+  menu.forEach((c, ci) => {
+    const sec = document.createElement('section');
+    sec.className = 'cat' + (c.feature ? ' feature' : '');
+    sec.id = 'c' + ci;
+    if (!c.feature && !c.banner) { const h = document.createElement('h2'); h.textContent = c.name; sec.append(h); }
+    c.items.forEach(it => {
+      items[it.id] = it; qty[it.id] = 0;
+      const row = document.createElement('div'); row.className = 'dish';
+      const t = document.createElement('div'); t.className = 'txt';
+      const n = document.createElement('div'); n.className = 'nm'; n.textContent = it.n; t.append(n);
+      if (it.d) { const d = document.createElement('div'); d.className = 'ds'; d.textContent = it.d; t.append(d); }
+      const p = document.createElement('div'); p.className = 'pr'; p.textContent = fmt(it.p); t.append(p);
+      const st = document.createElement('div'); st.className = 'step';
+      const minus = document.createElement('button'); minus.type = 'button'; minus.textContent = '−'; minus.setAttribute('aria-label', 'הורדה של ' + it.n);
+      const q = document.createElement('span'); q.className = 'q'; q.textContent = '0';
+      const plus = document.createElement('button'); plus.type = 'button'; plus.textContent = '+'; plus.setAttribute('aria-label', 'הוספה של ' + it.n);
+      st.append(plus, q, minus);
+      const set = v => { qty[it.id] = Math.max(0, v); q.textContent = qty[it.id]; minus.disabled = qty[it.id] === 0; row.classList.toggle('on', qty[it.id] > 0); update(); };
+      plus.addEventListener('click', () => set(qty[it.id] + 1));
+      minus.addEventListener('click', () => set(qty[it.id] - 1));
+      minus.disabled = true;
+      row.append(t, st);
+      sec.append(row);
+    });
+    if (c.banner) {
+      const b = document.createElement('div'); b.className = 'banner';
+      const e = document.createElement('div'); e.className = 'eyebrow'; e.textContent = 'תפריט חלבי';
+      const h = document.createElement('div'); h.className = 'banner-h'; h.textContent = 'מגשי אירוח';
+      const p = document.createElement('p'); p.className = 'banner-p'; p.textContent = 'מגשים מוכנים להגשה. המחיר הוא למגש.';
+      b.append(e, h, p);
+      main.append(b);
+    }
+    main.append(sec);
+    const a = document.createElement('a'); a.href = '#c' + ci; a.textContent = (c.dairy ? 'חלבי · ' : '') + c.name;
+    a.addEventListener('click', e => { e.preventDefault(); sec.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
+    nav.append(a);
+  });
+
+  const tot = document.getElementById('tot'), cnt = document.getElementById('cnt'), send = document.getElementById('send');
+  const fields = ['f-name', 'f-date', 'f-guests', 'f-notes'].map(id => document.getElementById(id));
+  fields.forEach(f => f.addEventListener('input', update));
+
+  function message(){
+    const v = id => document.getElementById(id).value.trim();
+    const lines = ['שלום, הזמנה ממטבח קאסה'];
+    if (v('f-name')) lines.push('שם: ' + v('f-name'));
+    if (v('f-date')) { const [y,m,d] = v('f-date').split('-'); lines.push('תאריך האירוע: ' + d + '.' + m + '.' + y); }
+    if (v('f-guests')) lines.push('מספר אורחים: ' + v('f-guests'));
+    lines.push('');
+    let sum = 0;
+    menu.forEach(c => c.items.forEach(it => {
+      const k = qty[it.id]; if (!k) return;
+      sum += k * it.p;
+      lines.push((c.dairy ? 'חלבי · ' : '') + it.n + ' × ' + k + ' = ' + fmt(k * it.p));
+    }));
+    lines.push('', 'סה"כ משוער: ' + fmt(sum));
+    if (v('f-notes')) lines.push('', 'הערות: ' + v('f-notes'));
+    return lines.join('\n');
+  }
+
+  function update(){
+    let sum = 0, n = 0;
+    Object.keys(qty).forEach(id => { sum += qty[id] * items[id].p; n += qty[id]; });
+    tot.textContent = fmt(sum);
+    cnt.textContent = n ? (n + ' מנות בהזמנה') : 'עוד לא נבחרו מנות';
+    send.setAttribute('aria-disabled', n ? 'false' : 'true');
+    send.href = 'https://wa.me/972525304883?text=' + encodeURIComponent(message());
+  }
+
+  document.getElementById('copy').addEventListener('click', e => {
+    const btn = e.currentTarget, text = message();
+    const ok = () => { btn.textContent = 'הועתק'; setTimeout(() => btn.textContent = 'העתקה', 1600); };
+    const fallback = () => {
+      let ta = document.getElementById('copy-fallback');
+      if (!ta) { ta = document.createElement('textarea'); ta.id = 'copy-fallback'; ta.setAttribute('aria-label', 'טקסט ההזמנה'); document.getElementById('details').append(ta); }
+      ta.value = text; ta.focus(); ta.select();
+    };
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (_) { fallback(); }
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>
